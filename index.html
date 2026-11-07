@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrimeScene Record | Forensic Documentation System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Login Screen -->
+    <section id="screen-login" class="screen active">
+        <div class="login-container">
+            <div class="login-left">
+                <div class="brand-block">
+                    <div class="logo-symbol">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="4" width="24" height="32" rx="2" stroke="#FFFFFF" stroke-width="2"/>
+                            <path d="M12 12H28M12 18H28M12 24H20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M24 30H28" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h1 class="brand-name">CrimeScene Record</h1>
+                    <p class="brand-subtitle">FORENSIC DOCUMENTATION SYSTEM</p>
+                </div>
+                <div class="hero-block">
+                    <h2>Every detail matters.</h2>
+                    <p>A structured workspace for recording, organizing, and reviewing forensic evidence.</p>
+                </div>
+                <div class="login-footer">
+                    <p>EDUCATIONAL DEMONSTRATION SYSTEM</p>
+                </div>
+                <div class="demo-access">
+                    <p class="small-label">ACCESS</p>
+                    <div class="credential-row">
+                        <span>User: <strong>officer</strong></span>
+                        <span>Pass: <strong>Forensic@123</strong></span>
+                    </div>
+                    <button id="copy-creds" class="btn-text">Copy Credentials</button>
+                </div>
+            </div>
+            <div class="login-right">
+                <div class="login-form-wrapper">
+                    <h3>Access your workspace</h3>
+                    <p class="form-subtext">Sign in using the demonstration credentials.</p>
+
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" required placeholder="Enter username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="password" required placeholder="Enter password">
+                                <button type="button" id="toggle-password" class="btn-icon">Show</button>
+                            </div>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="remember-me">
+                                <span class="checkmark"></span>
+                                Remember session
+                            </label>
+                        </div>
+                        <button type="submit" class="btn-primary">Sign In</button>
+                        <p id="login-error" class="error-message hidden">Invalid username or password. Please try again.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Shell (Protected Screens) -->
+    <div id="app-shell" class="hidden">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo-symbol small">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="8" y="4" width="24" height="32" rx="2" stroke="#FFFFFF" stroke-width="2"/>
+                        <path d="M12 12H28M12 18H28M12 24H20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M24 30H28" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <span class="sidebar-title">CrimeScene Record</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-screen="screen-dashboard">
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-screen="screen-add-evidence">
+                    <span class="nav-label">Add Evidence</span>
+                </a>
+                <a href="#" class="nav-item" data-screen="screen-records">
+                    <span class="nav-label">Evidence Records</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span class="user-role">Forensic Officer</span>
+                    <span class="user-status">Active Session</span>
+                </div>
+                <button id="logout-btn" class="btn-logout">Logout</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- Dashboard Screen -->
+            <section id="screen-dashboard" class="screen active">
+                <header class="content-header">
+                    <div class="header-text">
+                        <h1>Operational Dashboard</h1>
+                        <p>Overview of current forensic documentation and storage status.</p>
+                    </div>
+                    <div class="header-actions">
+                        <span id="current-date" class="date-display">October 29, 2026</span>
+                        <button class="btn-primary" onclick="app.navigateTo('screen-add-evidence')">+ Add Evidence</button>
+                    </div>
+                </header>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-label">Total Cases</span>
+                        <span class="metric-value" id="stat-cases">0</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Evidence Records</span>
+                        <span class="metric-value" id="stat-records">0</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">In Storage</span>
+                        <span class="metric-value" id="stat-storage">0</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Recently Added</span>
+                        <span class="metric-value" id="stat-recent">0</span>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2>Recent Evidence Entries</h2>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Evidence ID</th>
+                                    <th>Case ID</th>
+                                    <th>Type</th>
+                                    <th>Collection Date</th>
+                                    <th>Status</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-recent-body">
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                        <div id="dashboard-empty" class="empty-state hidden">
+                            No recent evidence recorded.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Evidence Screen -->
+            <section id="screen-add-evidence" class="screen">
+                <header class="content-header">
+                    <div class="header-text">
+                        <h1>Document New Evidence</h1>
+                        <p>Enter precise details for the evidence recovery process.</p>
+                    </div>
+                </header>
+
+                <div class="form-container">
+                    <form id="evidence-form">
+                        <div class="form-section">
+                            <h3 class="section-label">Case Reference</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="caseId">Case ID</label>
+                                    <input type="text" id="caseId" required placeholder="e.g. CASE-2026-001">
+                                </div>
+                                <div class="form-group">
+                                    <label for="evidenceId">Evidence ID</label>
+                                    <div class="input-with-hint">
+                                        <input type="text" id="evidenceId" required placeholder="EVID-000">
+                                        <span class="input-hint">Unique Identifier</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-label">Evidence Details</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="evidenceType">Evidence Type</label>
+                                    <select id="evidenceType" required>
+                                        <option value="" disabled selected>Select type...</option>
+                                        <option value="Biological Sample">Biological Sample</option>
+                                        <option value="Fingerprint">Fingerprint</option>
+                                        <option value="Digital Evidence">Digital Evidence</option>
+                                        <option value="Document">Document</option>
+                                        <option value="Weapon or Object">Weapon or Object</option>
+                                        <option value="Trace Evidence">Trace Evidence</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select id="status" required>
+                                        <option value="" disabled selected>Select status...</option>
+                                        <option value="In Storage">In Storage</option>
+                                        <option value="Sent to Laboratory">Sent to Laboratory</option>
+                                        <option value="Under Examination">Under Examination</option>
+                                        <option value="Released">Released</option>
+                                        <option value="Archived">Archived</option>
+                                    </select>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="description">Description</label>
+                                    <textarea id="description" required rows="3" placeholder="Provide detailed physical description..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-label">Collection Information</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="collectionDate">Collection Date</label>
+                                    <input type="date" id="collectionDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="collectionTime">Collection Time</label>
+                                    <input type="time" id="collectionTime" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="collectionLocation">Collection Location</label>
+                                    <input type="text" id="collectionLocation" required placeholder="Exact coordinates or room">
+                                </div>
+                                <div class="form-group">
+                                    <label for="collectedBy">Collected By</label>
+                                    <input type="text" id="collectedBy" required placeholder="Officer Name / ID">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-label">Storage Information</h3>
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label for="storageLocation">Storage Location</label>
+                                    <input type="text" id="storageLocation" required placeholder="e.g. Vault B, Shelf 4, Box 12">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" id="btn-reset-form" class="btn-secondary">Reset Form</button>
+                            <button type="button" id="btn-cancel-form" class="btn-text">Cancel</button>
+                            <button type="submit" class="btn-primary">Save Evidence Record</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Records Screen -->
+            <section id="screen-records" class="screen">
+                <header class="content-header">
+                    <div class="header-text">
+                        <h1>Evidence Records</h1>
+                        <p>Comprehensive archive of all documented forensic evidence.</p>
+                    </div>
+                </header>
+
+                <div class="filter-bar">
+                    <div class="search-group">
+                        <input type="text" id="search-input" placeholder="Search Evidence ID, Case, Location...">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filter-type">
+                            <option value="all">All Types</option>
+                            <option value="Biological Sample">Biological Sample</option>
+                            <option value="Fingerprint">Fingerprint</option>
+                            <option value="Digital Evidence">Digital Evidence</option>
+                            <option value="Document">Document</option>
+                            <option value="Weapon or Object">Weapon or Object</option>
+                            <option value="Trace Evidence">Trace Evidence</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <select id="filter-status">
+                            <option value="all">All Statuses</option>
+                            <option value="In Storage">In Storage</option>
+                            <option value="Sent to Laboratory">Sent to Laboratory</option>
+                            <option value="Under Examination">Under Examination</option>
+                            <option value="Released">Released</option>
+                            <option value="Archived">Archived</option>
+                        </select>
+                        <button id="btn-print" class="btn-secondary">Print Archive</button>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Evidence ID</th>
+                                <th>Case ID</th>
+                                <th>Type</th>
+                                <th>Date</th>
+                                <th>Officer</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="records-table-body">
+                            <!-- Dynamic Content -->
+                        </tbody>
+                    </table>
+                    <div id="records-empty" class="empty-state hidden">
+                        No records match your current filters.
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for Details/Edit -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Evidence Details</h3>
+                <button class="btn-close">&times;</button>
+            </div>
+            <div id="modal-body" class="modal-body">
+                <!-- Dynamic Content -->
+            </div>
+            <div id="modal-footer" class="modal-footer">
+                <!-- Dynamic Buttons -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
